@@ -37,10 +37,13 @@ for t = 1:length(instant_title)
     pcolor(X,Y,curlz)
     hold on 
     quiver(data.x,data.y,data.Vx,data.Vy,'Color','black','AutoScale','off');
-    title_str = "Instantaneous PIV Measurements at (" + source(t) + ")";
+    title_str = "Instantaneous PIV Measurements (" + source(t) + ")";
     title(title_str);
+    xlabel("X Position [mm]");
+    ylabel("Y Position [mm]");
     c = colorbar;
     c.Label.String = 'Vorticity';
+    saveas(gcf, figure_dir + title_str + ".svg");
     %% Slide 30 Method (does not look right compared to TecPlot)
     % figure
     % [PartialVx,PartialVy] = gradient(V,space,-space);
@@ -50,9 +53,9 @@ for t = 1:length(instant_title)
 end
 
 %% Ensemble Average Measurements 
-%unzip(zip_dir);
+unzip(zip_dir);
 dirs = ["AOA4","AOA8","AOA12","AOA16"];
-for d = 4:length(dirs)
+for d = 1:length(dirs)
     sum = table(data.x,data.y,zeros(4096,1),zeros(4096,1),zeros(4096,1));
     sum.Properties.VariableNames = {'x','y','U','V','TKE'};
     % Iterate through all 250 frames to get ensemble average
@@ -86,7 +89,7 @@ for d = 4:length(dirs)
     ylabel("Y Position [mm]");
     c = colorbar;
     c.Label.String = 'Vorticity';
-   
+    saveas(gcf, figure_dir + title_str + ".svg");
     %% Turbulence Distributions
     avg_U = mean(sum.U);
     avg_V = mean(sum.V);
@@ -124,6 +127,7 @@ for d = 4:length(dirs)
     ylabel("Y Position [mm]");
     c = colorbar;
     c.Label.String = 'Total Kinetic Energy';
+    saveas(gcf, figure_dir + title_str + ".svg");
     %% Reynolds Stress (add tau column to sum table)
     % sum.tau = -rho* prime.u .* prime.v;
     % figure
@@ -139,20 +143,20 @@ for d = 4:length(dirs)
     % Estimating half chord is at x position of 0 (about index 31)
     % Half Chord downstream is about -100 millimeters (about index 11)
     plot(Y,sqrt(U(:,11).^2 + V(:,11).^2));
-    title_str = "Wake Profile at 1/2 Chord Downstream (" + dirs(d) + ")";
+    title_str = "Wake Profile at 0.5 Chord Downstream (" + dirs(d) + ")";
     title(title_str);
     xlabel("Y Position [mm]");
     ylabel("Velocity Magnitude [m/s]");
-    
+    saveas(gcf, figure_dir + title_str + ".svg");
     %% Write to File
-    % filename = "./Data/Ensemble/"+dirs(d)+".dat";
-    % fid = fopen(filename, 'wt');
-    % fprintf(fid, 'TITLE = "%s"\n',dirs(d));
-    % fprintf(fid, 'VARIABLES = "x", "y", "Vx", "Vy", "TKE"\n');
-    % fprintf(fid, 'ZONE T="Frame 0", I=64, J=64\n');te
-    % fclose(fid);
-    % writetable(sum, filename,'Delimiter','\t','WriteVariableNames',false,'WriteMode','append');
+    filename = "./Data/Ensemble/"+dirs(d)+".dat";
+    fid = fopen(filename, 'wt');
+    fprintf(fid, 'TITLE = "%s"\n',dirs(d));
+    fprintf(fid, 'VARIABLES = "x", "y", "Vx", "Vy", "TKE"\n');
+    fprintf(fid, 'ZONE T="Frame 0", I=64, J=64\n');
+    fclose(fid);
+    writetable(sum, filename,'Delimiter','\t','WriteVariableNames',false,'WriteMode','append');
 end
 
 %% Clean Up
-%rmdir(file_dir,'s');
+rmdir(file_dir,'s');
