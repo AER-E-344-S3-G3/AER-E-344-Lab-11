@@ -16,8 +16,8 @@ instant_title = ["B00202.dat","B00245.dat"];
 source = ["AOA8","AOA16"];
 source_title_str = ["AoA 8°","AoA 16°"];
 for t = 1:length(instant_title)
-    data = readtable(data_dir+instant_title(t),"VariableNamingRule", ...
-        "modify","NumHeaderLines",3);
+    data = readtable(data_dir+instant_title(t),'VariableNamingRule', ...
+        'modify','NumHeaderLines',3);
     data.Properties.VariableNames = {'x','y','Vx','Vy'};
     % Initalize matrices for vorticity calculations.
     X = min(data.x):space:max(data.x)+1;
@@ -48,7 +48,7 @@ for t = 1:length(instant_title)
     fontname("Times New Roman");
     fontsize(12, "points");
     c = colorbar;
-    c.Label.String = "Vorticity [s^{-1}]";
+    c.Label.String = "Vorticity";
     saveas(gcf, figure_dir + title_str + " - " + source(t) + ".svg");
     %% Slide 30 Method (does not look right compared to TecPlot)
     % figure
@@ -64,13 +64,13 @@ dirs = ["AOA4","AOA8","AOA12","AOA16"];
 aoa_str = ["AoA 4°","AoA 8°","AoA 12°","AoA 16°"];
 for d = 1:length(dirs)
     sum = table(data.x,data.y,zeros(4096,1),zeros(4096,1),zeros(4096,1));
-    sum.Properties.VariableNames = {'x','y','U','V','TKE'};
+    sum.Properties.VariableNames = {"x","y","U","V","TKE"};
     % Iterate through all 250 frames to get ensemble average
     for f = 1:250
         filename = file_dir+dirs(d)+"/B00"+num2str(f,"%03d")+".dat";
         data = readtable(filename,"VariableNamingRule","modify", ...
             "NumHeaderLines",3);
-        data.Properties.VariableNames = {'x','y','Vx','Vy'};
+        data.Properties.VariableNames = {"x","y","Vx","Vy"};
         sum.U = sum.U + data.Vx;
         sum.V = sum.V + data.Vy;
     end
@@ -98,19 +98,19 @@ for d = 1:length(dirs)
     fontname("Times New Roman");
     fontsize(12, "points");
     c = colorbar;
-    c.Label.String = "Vorticity [s^{-1}]";
+    c.Label.String = "Vorticity";
     saveas(gcf, figure_dir + title_str + " - " + dirs(d) + ".svg");
 
     %% Turbulence Distributions
     avg_U = mean(sum.U);
     avg_V = mean(sum.V);
     prime = table(data.x,data.y,zeros(4096,1),zeros(4096,1));
-    prime.Properties.VariableNames = {'x','y','u','v'};
+    prime.Properties.VariableNames = {"x","y","u","v"};
     for f = 1:250
         filename = file_dir+dirs(d)+"/B00"+num2str(f,"%03d")+".dat";
         data = readtable(filename,"VariableNamingRule","modify", ...
             "NumHeaderLines",3);
-        data.Properties.VariableNames = {'x','y','Vx','Vy'};
+        data.Properties.VariableNames = {"x","y","Vx","Vy"};
         prime.u = prime.u + ((data.Vx - avg_U).^2)/250;
         prime.v = prime.v + ((data.Vy - avg_V).^2)/250;
     end
@@ -149,8 +149,8 @@ for d = 1:length(dirs)
     % colormap("jet");
     % pcolor(X,Y,RE);
     % hold on;
-    % quiver(sum.x,sum.y,sum.U,sum.V,"Color","black","AutoScale","off");
-    % title_str = "Reynold"s Stress Distribution (" + dirs(d) + ")";
+    % quiver(sum.x,sum.y,sum.U,sum.V,"Color","black","AutoScale","off');
+    % title_str = "Reynold's Stress Distribution (" + dirs(d) + ")";
     % title(title_str);
     % colorbar;
 
@@ -170,14 +170,14 @@ for d = 1:length(dirs)
 
     %% Write to File
     filename = "./Data/Ensemble/"+dirs(d)+".dat";
-    fid = fopen(filename, "wt");
+    fid = fopen(filename, 'wt');
     fprintf(fid, 'TITLE = "%s"\n',dirs(d));
     fprintf(fid, 'VARIABLES = "x", "y", "Vx", "Vy", "TKE"\n');
     fprintf(fid, 'ZONE T="Frame 0", I=64, J=64\n');
     fclose(fid);
-    writetable(sum, filename,"Delimiter","\t","WriteVariableNames", ...
-        false,"WriteMode","append");
+    writetable(sum, filename,'Delimiter','\t','WriteVariableNames', ...
+        false,'WriteMode','append');
 end
 
 %% Clean Up
-rmdir(file_dir,"s");
+rmdir(file_dir,'s');
