@@ -133,7 +133,7 @@ for d = 1:length(dirs)
     pcolor(X,Y,TKE);
     hold on;
     quiver(sum.x,sum.y,sum.U,sum.V,"Color","black","AutoScale","off");
-    title_str = "Ensemble Total Kinetic Energy";
+    title_str = "Ensemble Turbulent Kinetic Energy";
     title(title_str + "  (" + aoa_str(d) + ")");
     xlabel("X Position [mm]");
     ylabel("Y Position [mm]");
