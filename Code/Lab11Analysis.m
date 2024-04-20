@@ -159,7 +159,7 @@ for d = 1:length(dirs)
     % Estimating half chord is at x position of 0 (about index 31)
     % Half Chord downstream is about -100 millimeters (about index 11)
     plot(Y,sqrt(U(:,11).^2 + V(:,11).^2));
-    title_str = "Wake Profile at Half Chord";
+    title_str = "Wake Profile at Half Chord Downstream";
     title(title_str + "  (" + aoa_str(d) + ")");
     xlabel("Y Position [mm]");
     ylabel("Velocity Magnitude [m/s]");
