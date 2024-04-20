@@ -31,6 +31,7 @@ A \acrshort{piv} system is set up to view flow over an airfoil in a wind tunnel.
     \end{subfigure}
     \caption{Pictures of the apparatus.}
     \label{fig:apparatus}
+    \vspace*{3.5in}
 \end{figure}
 
 \section{Procedure} \label{sec:Prodedure}
@@ -47,7 +48,7 @@ A \acrshort{piv} system is set up to view flow over an airfoil in a wind tunnel.
 
 \section{Derivations} \label{sec: Derivations}
 
-The PIV Data consists of x and y positions with corresponding x and y velocity. From the velocity data at each point, vorticity is found using \autoref{eq:vorticity}. This is computed using the \textit{curl} function in Matlab as the $k$ component of the velocity vector is zero and the result is the same.
+The PIV Data consists of x and y positions with corresponding x and y velocity. From the velocity data at each point, vorticity is found using \autoref{eq:vorticity}. This is computed using the \verb|curl| function in \acrfull{matlab} as the $k$ component of the velocity vector is zero and the result is the same.
 \begin{equation}\label{eq:vorticity}
     \omega _z = \frac{\delta V}{\delta x} - \frac{\delta U}{\delta y}
 \end{equation}
