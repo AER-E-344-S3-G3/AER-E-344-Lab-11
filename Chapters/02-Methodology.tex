@@ -37,18 +37,18 @@ A \acrshort{piv} system is set up to view flow over an airfoil in a wind tunnel.
 \section{Procedure} \label{sec:Prodedure}
 
 \begin{enumerate}
-\item Set the wind tunnel to 10 $m/s$.
-\item Set the \acrshort{aoa} to 4 degrees.
-\item Set up the system as described in \autoref{sec:Apparatus}.
-\item Start recording data using the data collection software.
-\item Repeat steps 1-4 for 8, 12, and 16 degrees.
+    \item Set the wind tunnel to \qty{10}{\meter\per\second}.
+    \item Set the \acrshort{aoa} to \qty{4}{\degree}.
+    \item Set up the system as described in \autoref{sec:Apparatus}.
+    \item Start recording data using the data collection software.
+    \item Repeat steps \numrange{1}{4} for \qtylist{8;12;16}{\degree}.
 \end{enumerate}
 
 \newpage
 
 \section{Derivations} \label{sec: Derivations}
 
-The PIV Data consists of x and y positions with corresponding x and y velocity. From the velocity data at each point, vorticity is found using \autoref{eq:vorticity}. This is computed using the \verb|curl| function in \acrfull{matlab} as the $k$ component of the velocity vector is zero and the result is the same.
+The PIV Data consists of \gls{x} and \gls{y} positions with corresponding x and y velocity, denoted \gls{u} and \gls{v}. From the velocity data at each point, vorticity is found using \autoref{eq:vorticity}. This is computed using the \verb|curl| function in \acrfull{matlab} as the $k$ component of the velocity vector is zero and the result is the same.
 \begin{equation}\label{eq:vorticity}
     \omega _z = \frac{\delta V}{\delta x} - \frac{\delta U}{\delta y}
 \end{equation}
@@ -64,7 +64,7 @@ From the mean velocities, the turbulent velocity fluctuations are computed at ea
     \overline{u}' = \sqrt{\sum^N_{i=1}(u_i-U)^2/N},
     \overline{v}' = \sqrt{\sum^N_{i=1}(v_i-U)^2/N}
 \end{equation}
-Finally, the turbulent velocity fluctuations are used to find the turbulent kinetic energy distribution, as shown in \autoref{eq:kinetic} \citep{lab11-manual}.
+Finally, the turbulent velocity fluctuations are used to find the turbulent kinetic energy distribution, as shown in \autoref{eq:kinetic}.
 \begin{equation}\label{eq:kinetic}
     TKE = \frac{1}{2}\rho(\overline{u}'^2 + \overline{v}'^2)
 \end{equation}
